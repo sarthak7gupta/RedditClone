@@ -37,8 +37,6 @@ Tasks pending in front end:
 
 * Component to show a single post (Need to redirect to this once a new post is uploaded or existing post is clicked from main feed)
 
-* Signup and login form
-
 * Updating the main feed without refreshing the page
 
 * Post comments (not done)
