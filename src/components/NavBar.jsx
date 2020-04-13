@@ -1,18 +1,29 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import '../styles/navLinks.css'
 
 class NavBar extends Component {
     state = { 
         query : "",
-        log_bool: "Login",       //to check if user has logged in or not
-        isLoggedIn: false
+        isLoggedIn: this.props.isLoggedIn,
+        username: this.props.username
     };
+
+    componentDidUpdate(prevProps) {
+        if(prevProps.username !== this.props.username) {
+          this.setState({username: this.props.username});
+        }
+        if(prevProps.isLoggedIn !== this.props.isLoggedIn) {
+          this.setState({isLoggedIn: this.props.isLoggedIn});
+        }
+      }
 
 
     render() {  
 
-        const username = this.props.username;
+        const username = this.state.username;
+        const isLoggedIn = this.state.isLoggedIn;
+		console.log("Login State in NavBar.jsx:",username,isLoggedIn)
 
         return ( 
             <nav className="navbar navbar-dark bg-dark" style={{color: "#FFFFFF"}}>
@@ -37,7 +48,7 @@ class NavBar extends Component {
                     </li> */}
 
                     <li className="my-2 my-sm-0 mx-sm-2">
-                        { this.state.isLoggedIn ? 
+                        { isLoggedIn ? 
                         <div>
                             <div style={{marginTop:8}}>Logged In as: {username}</div>
                         </div>
@@ -46,7 +57,7 @@ class NavBar extends Component {
                     </li>
 
                     <div>
-                        { this.state.isLoggedIn ?
+                        { isLoggedIn ?
                         <h3>|</h3>
                         :
                         null
@@ -75,12 +86,12 @@ class NavBar extends Component {
 
                     <div><h3>|</h3></div>
 
-                    <li>
-                        <input type="button" value = {!this.state.isLoggedIn ? "Login" : "Logout"} className="btn btn-outline-danger my-2 my-sm-0 mx-sm-2"
-                        onClick={(e) => this.loginToggle()}/>
+                    <li className="nav-item">
+                        <input type="button" value = {!isLoggedIn ? "Login" : "Logout"} className="btn btn-outline-danger my-2 my-sm-0 mx-sm-2"
+                        onClick={(e) => this.handleLogin()}/>
                     </li>
                     <li>
-                        { !this.state.isLoggedIn ? 
+                        { !isLoggedIn ? 
                             <input type="button" value="Signup" className="btn btn-outline-danger my-2 my-sm-0 mx-sm-1"
                             onClick={(e) => this.handleSignup(e.target.value)}/>    
                         :
@@ -96,18 +107,16 @@ class NavBar extends Component {
         this.setState({query: value});
     }
 
-    loginToggle(){
-
-        // Login alert box
-
-        // Show the user status
-        if (this.state.isLoggedIn===false){
-            this.setState({isLoggedIn: true});
+    handleLogin(){
+        // Log out
+        if(this.state.username !== ''){
+            this.props.updateLoginState('')
         }
+        // Log in
         else{
-            this.setState({isLoggedIn: false});
+            this.props.history.push('/Login')
         }
-        console.log("Login Status: ",this.state.isLoggedIn);
+        // console.log("Login Status: ",!this.state.isLoggedIn);
     }
 
     handleSignup(value){
@@ -126,4 +135,4 @@ class NavBar extends Component {
 
 }
  
-export default NavBar;
+export default withRouter(NavBar);
