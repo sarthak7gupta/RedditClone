@@ -37,10 +37,6 @@ Tasks pending in front end:
 
 * ajax techniques (any 2)
 
-* Component to show a single post (Need to redirect to this once a new post is uploaded or existing post is clicked from main feed)
-
-* Updating the main feed without refreshing the page
-
 * Post comments (not done)
 
 * Image sent as prop from mainfeed.jsx does not load in post.jsx (Possible solution is webpack?)
