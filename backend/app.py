@@ -1,9 +1,14 @@
 from functools import partial
 from json import loads
 
+import nltk
+# nltk.download('stopwords')
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+
 import bcrypt
 from bson import json_util
-from flask import Flask
+from flask import Flask, request
 from flask_restful import Api, Resource, reqparse
 from mongoengine import DoesNotExist, connect
 from mongoengine.queryset.visitor import Q
@@ -34,10 +39,40 @@ parser.add_argument('body', type=str)
 parser.add_argument('up', type=int)
 
 
-cors = {'Access-Control-Allow-Origin': '*'}
+cors = {
+	'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': '*'
+}
 
 
 class User_(Resource):
+
+	def get(self):
+		"""
+		User Data
+		@get_param username: username or email (str)
+		"""
+		a = request.args
+		u_username = a['username']
+		print(u_username)
+
+		if not u_username:
+			return {
+				'message': 'all fields required'
+			}, 400, cors
+
+		try:
+			user = User.objects(username=u_username).get()
+		except DoesNotExist:
+			return {
+				'message': 'username does not exist'
+			}, 400, cors
+
+		return {
+			'username': user.username,
+			'profilePic': "temp1.jpg",
+			'karma': user.karma,
+			'bio': user.bio
+		}, 200, cors
 
 	def post(self):
 		"""
@@ -134,6 +169,36 @@ class SubReddits_(Resource):
 
 class SubReddit_(Resource):
 
+	def get(self):
+		"""
+			Subreddit Details
+			@param subreddit: (str)
+			@returns {name, profilePic, title, description, rules}
+		"""
+		a = request.args
+		s_name = a.get('name', None)
+
+		if not s_name:
+			return {
+				'message': 'all fields required'
+			}, 400, cors
+
+		try:
+			sub = Subreddit.objects(name=s_name).get()
+		except DoesNotExist:
+			return {
+				'message': 'subreddit already exists'
+			}, 400, cors
+
+		return {
+			'name': f'r/{sub.name}',
+			'profilePic': "temp1.jpg",
+			'title': sub.title,
+			'description': sub.desc,
+			'rules': sub.rules,
+			'topic': sub.topic
+		}, 200, cors
+
 	def put(self):
 		"""
 			New Subreddit
@@ -187,28 +252,50 @@ class SubReddit_(Resource):
 		}, 200, cors
 
 
-class Post_(Resource):
+class Post1_(Resource):
 
 	def get(self):
 		"""
 			Get all posts or a subreddit's posts
-			@optional @param subreddit: all posts if not given, else only of that subreddit
+			@optional @get_param subreddit: all posts if not given, else only of that subreddit
+			@optional @get_param subreddit: all posts if not given, else only of that user
 			@returns list({"author", "title", "subreddit", "posteddate", "votecount", "flair"})
 		"""
-		a = parser.parse_args()
-		p_subreddit = a['subreddit']
+		a = request.args
+		p_subreddit = a.get('subreddit', None)
+		p_username = a.get('username', None)
 
 		if p_subreddit:
 			try:
 				p_subreddit = Subreddit.objects(name=p_subreddit).get()
 			except DoesNotExist:
 				return {
+					'message': 'subreddit does not exist'
+				}, 400, cors
+
+		if p_username:
+			try:
+				p_user = User.objects(username=p_username).get()
+			except DoesNotExist:
+				return {
 					'message': 'user does not exist'
 				}, 400, cors
 
-			return [loads(i.json()) for i in Post.objects(subreddit=p_subreddit)], 200, cors
+		if p_subreddit:
+			if p_username:
+				posts = Post.objects(Q(author=p_user) & Q(subreddit=p_subreddit))
+			else:
+				posts = Post.objects(subreddit=p_subreddit)
+		else:
+			if p_username:
+				posts = Post.objects(author=p_user)
+			else:
+				posts = Post.objects()
 
-		return [loads(i.json()) for i in Post.objects()], 200, cors
+		return [loads(i.json()) for i in posts], 200, cors
+
+
+class Post_(Resource):
 
 	def post(self):
 		"""
@@ -221,6 +308,7 @@ class Post_(Resource):
 			@returns {}
 		"""
 		a = parser.parse_args()
+		print(a)
 		p_username, p_title, p_subreddit, p_flair, p_body = \
 			a['username'], a['title'], a['subreddit'], a['flair'], a['body']
 		if not p_username \
@@ -253,7 +341,7 @@ class Post_(Resource):
 		).save()
 
 		return {
-			'_id': new_post._id
+			'_id': str(new_post._id)
 		}, 200, cors
 
 
@@ -389,11 +477,66 @@ class Subscription_(Resource):
 		return {}, 200, cors
 
 
+class Similar_(Resource):
+	def get(self):
+		a = request.args
+		post = a.get('id', None)
+
+		if not post:
+			return {
+				'message': 'all fields required'
+			}, 400, cors
+
+		try:
+			post = Post.objects(_id=post).get()
+		except DoesNotExist:
+			return {
+				'message': 'Post doesnt exist'
+			}, 400, cors
+
+		posts = [p for p in Post.objects() if p._id != post._id]
+
+		post = loads(post.json())
+
+		post_to_text = lambda i: i['title'] + ' ' + i['description'] + ' ' + i['subreddit'][2:] + ' ' + i['author'][2:] + ' ' + i['flair']
+
+		X = post_to_text(post)
+
+		scores = {}
+
+		sw = stopwords.words('english')
+
+		X_list = word_tokenize(X)
+
+		for Y in posts:
+			Y_list = word_tokenize(post_to_text(loads(Y.json())))
+			l1, l2 = [], []
+			X_set = {w for w in X_list if not w in sw}
+			Y_set = {w for w in Y_list if not w in sw}
+			rvector = X_set.union(Y_set)
+
+			for w in rvector:
+				if w in X_set: l1.append(1) # create a vector
+				else: l1.append(0)
+				if w in Y_set: l2.append(1)
+				else: l2.append(0)
+
+			cosine = sum(l1[i] * l2[i] for i in range(len(rvector))) / float((sum(l1) * sum(l2)) ** 0.5)
+			scores[Y] = cosine
+
+		reccs = sorted(scores, key=lambda x: scores[x], reverse=True)[:5]
+
+		return [loads(p.json()) for p in reccs], 200, cors
+
+
+# api.add_resource(User1_, '/api/user/<username>')
 api.add_resource(User_, '/api/user')
+api.add_resource(Post1_, '/api/posts')
 api.add_resource(Post_, '/api/post')
 api.add_resource(SubReddit_, '/api/subreddit')
 api.add_resource(SubReddits_, '/api/subreddits')
 api.add_resource(Subscription_, '/api/sub')
+api.add_resource(Similar_, '/api/similar')
 
 
 if __name__ == '__main__':

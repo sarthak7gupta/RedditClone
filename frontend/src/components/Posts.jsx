@@ -6,11 +6,11 @@ import Post from './Post'
 
 class Posts extends Component {
 
-    render() { 
+    render() {
 
         const {allPosts,onUpvote,onDownvote,followSubreddit,goToSubreddit,goToPost} = this.props;
 
-        return ( 
+        return (
             <div>
                 {allPosts.map(post => (
                     <Post key={post.id}
@@ -23,9 +23,9 @@ class Posts extends Component {
                     />
                 ))
                 }
-            </div>            
+            </div>
         );
     }
 }
- 
+
 export default Posts;

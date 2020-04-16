@@ -4,16 +4,15 @@ import { Form } from 'react-bootstrap';
 import axios from 'axios';
 
 class CreateSubreddit extends Component {
-    state = { 
+    state = {
         name : "",
         title : "",
-        description : "",
-        rule : "",
-        image : "",
-        topics : "",
+        desc : "",
+        rules : "",
+        topic : "",
 
         isLoggedIn: this.props.isLoggedIn,
-        username: this.props.username        
+        username: this.props.username
     }
 
     // To reflect immediate changes in props
@@ -34,7 +33,7 @@ class CreateSubreddit extends Component {
 
 
     render() {
-        
+
         const isLoggedIn = this.state.isLoggedIn;
 
         console.log("____IN PROFILE_____\nUsername:",this.props.username,"\nLogin Status:",this.props.isLoggedIn);
@@ -42,7 +41,7 @@ class CreateSubreddit extends Component {
         return (
             <React.Fragment>
                 {
-                    !isLoggedIn ? 
+                    !isLoggedIn ?
                     // Show that User has not logged in
                     <div>
                     <h1 className="center-screen">
@@ -63,29 +62,26 @@ class CreateSubreddit extends Component {
                             {/* Sub Container - Actual form to post*/}
                             <div>
                                 <form style={this.form_style} onSubmit={this.submitHandler}>
-                                    
-                                    <TextField id="name-text" variant="outlined" label="Name" fullWidth 
-                                    name="subreddit_name" value={this.state.name} onChange={(e) => this.handleNameChange(e.target.value)} required/>
-                                    
-                                    <TextField id="title-text" variant="outlined" label="Title" fullWidth 
-                                    name="subreddit_title" value={this.state.title} onChange={(e) => this.handleTitleChange(e.target.value)} required/>
-                                    
-                                    <TextField id="multiline-description-text" variant="outlined" label="Description" fullWidth multiline 
-                                    rowsMax="4" rows="3" name="subreddit_description" value={this.state.description} onChange={(e) => this.handleDescriptionChange(e.target.value)} />
 
-                                    <TextField id="multiline-rules-text" variant="outlined" label="Rules" fullWidth multiline 
+                                    <TextField id="name-text" variant="outlined" label="Name" fullWidth
+                                    name="subreddit_name" value={this.state.name} onChange={(e) => this.handleNameChange(e.target.value)} required/>
+
+                                    <TextField id="title-text" variant="outlined" label="Title" fullWidth
+                                    name="subreddit_title" value={this.state.title} onChange={(e) => this.handleTitleChange(e.target.value)} required/>
+
+                                    <TextField id="multiline-desc-text" variant="outlined" label="Description" fullWidth multiline
+                                    rowsMax="4" rows="3" name="subreddit_desc" value={this.state.desc} onChange={(e) => this.handleDescriptionChange(e.target.value)} required/>
+
+                                    <TextField id="multiline-rules-text" variant="outlined" label="Rules" fullWidth multiline
                                     rowsMax="4" rows="3" name="subreddit_rules" value={this.state.rules} onChange={(e) => this.handleRulesChange(e.target.value)} />
 
-                                    <TextField id="multiline-topics-text" variant="outlined" label="Topics" fullWidth multiline 
+                                    <TextField id="multiline-topics-text" variant="outlined" label="Topics" fullWidth multiline
                                     rowsMax="4" rows="3" name="subreddit_topics" value={this.state.topics} onChange={(e) => this.handleTopicsChange(e.target.value)} />
 
-                                    <Form.File id="custom-file" label="Choose the subreddit display pic" custom value={this.state.image} 
-                                    name="subreddit_image" onChange={(e) => this.handleImageChange(e.target.value)}/>
-                                    
                                     <div className="mt-3">
                                         <button type="submit" className="btn btn-lg btn-primary">Submit</button>
                                     </div>
-                                
+
                                 </form>
                             </div>
                         </div>
@@ -104,7 +100,7 @@ class CreateSubreddit extends Component {
     }
 
     handleDescriptionChange(value){
-        this.setState({description: value})
+        this.setState({desc: value})
     }
 
     handleTopicsChange(value){
@@ -115,27 +111,36 @@ class CreateSubreddit extends Component {
         this.setState({rules: value})
     }
 
-    handleImageChange(value){
-        this.setState({image: value})
-    }
-
     // Submit handler send the form data as a json to the appropriate API.
     submitHandler = (e) => {
         e.preventDefault()
         console.log(this.state)
         // temporary URL for POST request
-        axios.post("https://my-json-server.typicode.com/Dhruvvvx17/API-testing",this.state)
+        axios({
+			method: 'PUT',
+			url: `http://localhost:5000/api/subreddit`,
+			data: {
+				name: this.state.name,
+				title: this.state.title,
+				username: this.state.username,
+				desc: this.state.desc,
+				rules: this.state.rules,
+				topic: this.state.topic,
+			}
+		})
             .then(response => {
                 console.log(response)
+				this.props.history.push('/');
             })
             .catch(error => {
                 console.log(error)
+				this.props.history.push('/Profile');
             })
 
-            // Go to the post which has been uploaded 
-            // Or change the view in some way as the post has been created. 
+            // Go to the post which has been uploaded
+            // Or change the view in some way as the post has been created.
     }
-    
+
 }
- 
+
 export default CreateSubreddit;

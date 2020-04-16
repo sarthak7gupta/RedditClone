@@ -4,17 +4,34 @@ import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import AddIcon from '@material-ui/icons/Add';
 import PostDescription from './PostDescription'
-
+import axios from 'axios';
+import Posts from './Posts'
 
 class ViewPost extends Component {
 
+    componentDidMount() {
+		// Fetch user feed
+		axios.get(`http://localhost:5000/api/similar?id=${this.state.post.id}`, { crossdomain: true })  //Replace with appropriate API URL
+			.then(response => {
+				console.log(response);
+				this.setState({allPosts: response.data});
+
+				// Set this.state.allPosts to the response.
+				// this.state.allPosts = response IN LIST FORMAT like the example of allPosts
+			})
+			.catch(error => {
+				// Error recovery logic
+				console.log(error);
+			})
+	}
 
     state = {
         // The post data is send from the onclick in main feed
-        post: this.props.location.state
+        post: this.props.location.state,
+        allPosts: []
     }
 
-    container_style = {border: "1px solid black",width:600,height:"auto",margin:5,minHeight:600};
+    container_style = {border: "1px solid black",width:600,height:"auto",margin:5,minHeight:100};
     title_votes_style = {paddingInline: 10,display:"flex",flexDirection:"row",justifyContent:"space-between"}
     vote_btn_style = {marginInline:10,marginTop:5,marginBottom:5}
     subreddit_name_style = {paddingInline: 10,display:"flex",flexDirection:"row",justifyContent:"space-between",marginTop:"5px"}
@@ -30,12 +47,10 @@ class ViewPost extends Component {
                             <div style={{fontSize:15}} onClick={ () => this.goToSubreddit(this.state.post.subreddit)}>
                                 <p style={{marginTop:"5px"}}> { this.state.post.subreddit } </p>
                             </div>
-                            {/* Follow Button */}
-                            <div>
-                            <IconButton size = "small" color="primary" onClick={ () => this.followSubreddit(this.state.post)} >
-                                <AddIcon/>
-                            </IconButton>
+                            <div style={{fontSize:15}} >
+                                <p style={{marginTop:"5px"}}> { this.state.post.author } </p>
                             </div>
+
                         </div>
 
                         {/* Post Title & Votes */}
@@ -55,11 +70,6 @@ class ViewPost extends Component {
                             <PostDescription desc = {this.state.post.description} />
                         </div>
 
-                        {/* Post image */}
-                        <div style={{display:"flex",justifyContent:"center"}}>
-                            <img src = {this.state.post.image} alt="space" style={{width:"80%",height:"80%"}}/>
-                        </div>
-
                         {/* Post upvote and downvote button */}
                         <div style={this.vote_btn_style}>
                             <IconButton size = "small" color="secondary" onClick={ () => this.handleUpvote(this.state.post)} >
@@ -71,6 +81,20 @@ class ViewPost extends Component {
                         </div>
                     </div>
 
+                </div>
+                <hr></hr>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                    <h2>Similar Posts</h2>
+                </div>
+                <div style={{minheight:"100vh",width:"100%",display:"flex",justifyContent:"center"}}>
+                <Posts
+                    allPosts={this.state.allPosts}
+                    onUpvote={this.handleUpvote}
+                    onDownvote={this.handleDownvote}
+                    followSubreddit={this.followSubreddit}
+                    goToSubreddit={this.goToSubreddit}
+                    goToPost={this.goToPost}
+                />
                 </div>
             </React.Fragment>
         );

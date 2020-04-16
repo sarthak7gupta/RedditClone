@@ -13,7 +13,7 @@ import CreateSubreddit from './components/CreateSubreddit';
 import SearchResults from './components/SearchResults';
 import Subreddit from './components/Subreddit';
 import ViewPost from './components/ViewPost';
-import Explore from './components/Explore';
+// import Explore from './components/Explore';
 
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
@@ -72,10 +72,10 @@ class App extends Component {
 
 						<Route path='/r/post' exact component={ViewPost}/>
 
-						<Route path='/Explore' exact
+						{/* <Route path='/Explore' exact
 						render={(props) => <Explore {...props}
 						username={this.state.username}
-						isLoggedIn={this.state.isLoggedIn} /> } />
+						isLoggedIn={this.state.isLoggedIn} /> } /> */}
 
 						<Route component={NotFound}/>
 

@@ -5,11 +5,11 @@ import axios from 'axios';
 
 class CreatePost extends Component {
 	state = {
+		username: this.props.username,
 		title: "",
-		description: "",
-		image: "",
-		votes: 0,
+		body: "",
 		subreddit: "",
+		flair: "",
 
 		isLoggedIn: this.props.isLoggedIn,
 		username: this.props.username
@@ -65,14 +65,11 @@ class CreatePost extends Component {
 										<TextField id="name-text" variant="outlined" label="Title" fullWidth
 											name="post_title" value={this.state.title} onChange={(e) => this.handleTitleChange(e.target.value)} required />
 
-										<TextField id="multiline-description-text" variant="outlined" label="Description" fullWidth multiline
-											rowsMax="4" rows="3" name="post_description" value={this.state.description} onChange={(e) => this.handleDescriptionChange(e.target.value)} />
+										<TextField id="multiline-body-text" variant="outlined" label="Body" fullWidth multiline
+											rowsMax="4" rows="3" name="post_body" value={this.state.body} onChange={(e) => this.handleBodyChange(e.target.value)} />
 
 										<TextField id="subreddit-text" variant="outlined" label="Subreddit" fullWidth
 											name="post_subreddit" value={this.state.subreddit} onChange={(e) => this.handleSubredditChange(e.target.value)} required />
-
-										<Form.File id="custom-file" label="Upload an image" custom value={this.state.image}
-											name="post_image" onChange={(e) => this.handleImageChange(e.target.value)} />
 
 										<div className="mt-3">
 											<button type="submit" className="btn btn-lg btn-primary">Submit</button>
@@ -91,12 +88,8 @@ class CreatePost extends Component {
 		this.setState({ title: value })
 	}
 
-	handleDescriptionChange(value) {
-		this.setState({ description: value })
-	}
-
-	handleImageChange(value) {
-		this.setState({ image: value })
+	handleBodyChange(value) {
+		this.setState({ body: value })
 	}
 
 	handleSubredditChange(value) {
@@ -108,12 +101,25 @@ class CreatePost extends Component {
 		e.preventDefault()
 		console.log(this.state)
 		// temporary URL for POST request
-		axios.post("https://my-json-server.typicode.com/Dhruvvvx17/API-testing", this.state)
+		axios({
+			method: 'POST',
+			url: `http://localhost:5000/api/post`,
+			data: {
+				username: this.state.username,
+				title: this.state.title,
+				body: this.state.body,
+				subreddit: this.state.subreddit,
+				flair: this.state.flair,
+			}
+		})
 			.then(response => {
 				console.log(response)
+				this.props.history.push('/Profile');
 			})
 			.catch(error => {
 				console.log(error)
+				this.props.history.push('/');
+
 			})
 
 		// Go to the post which has been uploaded

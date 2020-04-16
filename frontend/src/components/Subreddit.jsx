@@ -5,15 +5,16 @@ import Posts from './Posts'
 
 
 class Subreddit extends Component {
-    
+
     // Fetch entire Feed from API here
     // Called immediately after a component is mounted. Setting state here will trigger re-rendering.
     componentDidMount(){
 
         // Get Subreddits posts
-        axios.get("https://my-json-server.typicode.com/typicode/demo/posts",{crossdomain: true})  //Replace with appropriate API URL
+        axios.get(`http://localhost:5000/api/posts?subreddit=${this.state.sub}`)
             .then(response => {
                 console.log(response);
+                this.setState({allPosts: response.data})
                 // Set this.state.allPosts to the response.
                 // this.state.allPosts = response IN LIST FORMAT like the example of allPosts
             })
@@ -23,9 +24,10 @@ class Subreddit extends Component {
             })
 
         // Get Subreddit's profile information
-        axios.get("https://my-json-server.typicode.com/typicode/demo/posts",{crossdomain: true})  //Replace with appropriate API URL
+        axios.get(`http://localhost:5000/api/subreddit?name=${this.state.sub}`)
         .then(response => {
             console.log(response);
+            this.setState({subRedditProfile: response.data})
             // Set this.state.subredditProfile to the response.
             // this.state.subredditProfile = response IN DICT FORMAT like the example of subredditProfile
         })
@@ -35,8 +37,8 @@ class Subreddit extends Component {
         })
     }
 
-
     state = {
+        sub: this.props.history.location.state,
         // Fetch all posts required by user
         allPosts: [
 
@@ -45,13 +47,13 @@ class Subreddit extends Component {
             // Post 1
             {id: 1,title:"Space",description:"A galaxy is a gravitationally bound system of stars, stellar remnants, interstellar gas, dust, and dark matter. The word galaxy is derived from the Greek galaxias, literally 'milky', a reference to the Milky Way.",
                 image: "../images/test_image1.jpg", votes: 15, subreddit: "r/space"},
-            
-            // Post 2 
+
+            // Post 2
             {id: 2,title:"Forest",description:"A forest is a large area dominated by trees. Hundreds of more precise definitions of forest are used throughout the world, incorporating factors such as tree density, tree height, land use, legal standing and ecological function.",
                 image: "../images/test_image2.jpg", votes: 34, subreddit: "r/nature"},
-            
+
             {id: 3,title:"Mountains",description:"A mountain is a large landform that rises above the surrounding land in a limited area, usually in the form of a peak. A mountain is generally steeper than a hill.",
-                image: "../images/test_image3.jpg", votes: 55, subreddit: "r/nature"} 
+                image: "../images/test_image3.jpg", votes: 55, subreddit: "r/nature"}
         ],
 
         subRedditProfile : {name:"r/all", profilePic:"temp1.jpg", title:"subreddit about everything",
@@ -59,13 +61,14 @@ class Subreddit extends Component {
         rules:"Rules,Rules,Rules,Rules,Rules,Rules,Rules,Rules,Rules,Rules,Rules"}
 
     }
-    
-    render() { 
+
+    render() {
+        console.log(this.state);
         return (
             <React.Fragment>
                 {/*  Main Container */}
                 <div style={{minheight:"100vh",width:"100%",display:"flex",justifyContent:"space-between"}}>
-                    
+
                     {/* Left */}
                     <div style={{flexGrow:"1",display:"flex",flexDirection:"column",alignItems:"center",marginTop:"20px"}}>
                         {/* Image */}
@@ -100,7 +103,7 @@ class Subreddit extends Component {
                             </p>
                         </div>
                     </div>
-                    
+
                     {/* Center */}
                     <div style={{flexGrow:"9",display:"flex",flexDirection:"column",alignItems:"center",}}>
                         <div>
@@ -115,7 +118,7 @@ class Subreddit extends Component {
                             goToPost = {this.goToPost}
                         />
                     </div>
-                    
+
                 </div>
         </React.Fragment>
         );
@@ -172,5 +175,5 @@ class Subreddit extends Component {
 
 
 }
- 
+
 export default Subreddit;

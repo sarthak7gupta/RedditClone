@@ -3,13 +3,12 @@ import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 
 class Signup extends Component {
-    
-    state = { 
+
+    state = {
         username:'',
         email:'',
         bio:'',
-        password:'',
-        profilePic:''
+        password:''
     }
 
     container_style = {display:"flex",alignItems:"center", flexDirection:"column", padding:5}
@@ -18,8 +17,8 @@ class Signup extends Component {
     display:"flex", alignItems:"center", flexDirection:"column",padding:40,justifyContent:"space-around"};
 
 
-    render() { 
-        return ( 
+    render() {
+        return (
             <React.Fragment>
             {/* Title of the create post page */}
             <div style={this.title_style}>
@@ -31,23 +30,23 @@ class Signup extends Component {
                 {/* Sub Container - Actual form to post*/}
                 <div>
                     <form style={this.form_style} onSubmit={this.signUpHandler}>
-                        
-                        <TextField id="name-text" variant="outlined" label="Username" fullWidth 
+
+                        <TextField id="name-text" variant="outlined" label="Username" fullWidth
                         name="username" value={this.state.username} onChange={(e) => this.handleUsernameChange(e.target.value)} required/>
 
-                        <TextField id="email-text" variant="outlined" label="Email" fullWidth 
+                        <TextField id="email-text" variant="outlined" label="Email" fullWidth
                         name="email" value={this.state.email} onChange={(e) => this.handleEmailChange(e.target.value)} required/>
-                        
-                        <TextField id="bio-text" variant="outlined" label="Bio" fullWidth 
+
+                        <TextField id="bio-text" variant="outlined" label="Bio" fullWidth
                         name="bio" value={this.state.bio} onChange={(e) => this.handleBioChange(e.target.value)} />
-                        
-                        <TextField id="password-text" variant="outlined" label="Password" fullWidth type="password" 
+
+                        <TextField id="password-text" variant="outlined" label="Password" fullWidth type="password"
                         name="password" value={this.state.password} onChange={(e) => this.handlePasswordChange(e.target.value)} required/>
-                                          
+
                         <div className="mt-3">
                             <button type="submit" className="btn btn-lg btn-primary">Signup</button>
                         </div>
-                    
+
                     </form>
                 </div>
             </div>
@@ -77,26 +76,27 @@ class Signup extends Component {
         e.preventDefault()
         console.log(this.state)
         // temporary URL for POST request
-        axios.post("https://my-json-server.typicode.com/Dhruvvvx17/API-testing",this.state)
+        axios({
+            method: 'PUT',
+            url: "http://localhost:5000/api/user",
+            data: this.state
+        })
             .then(response => {
                 console.log(response)
-                // Login Success goto main feed
-
-                // For testing only
-                console.log('Login with username: admin password: admin');
-                this.props.history.push('/Login');
+				// Login Success goto main feed
+				const resp = response.data;
+				if (resp['username'] !== undefined) {
+                    this.props.history.push('/Login');
+                } else {
+					// Login Failed
+					console.log(this.state.username, "Login Failed!");
+				}
             })
             .catch(error => {
                 console.log(error)
-                // Login Fail stau on login page
-
-                // For testing only
-                console.log('Login with username: admin password: admin');
-                this.props.history.push('/Login');
             })
     }
 
-
 }
- 
+
 export default Signup;

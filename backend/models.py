@@ -4,8 +4,9 @@ from json import dumps
 
 from bson import json_util
 from mongoengine import Document
-from mongoengine.fields import (DateField, DateTimeField, EmailField, IntField, ObjectIdField,
-                                ReferenceField, StringField)
+from mongoengine.fields import (DateField, DateTimeField, EmailField, IntField,
+                                ObjectId, ObjectIdField, ReferenceField,
+                                StringField)
 
 dumps = partial(dumps, default=json_util.default)
 
@@ -68,24 +69,26 @@ class Subreddit(Document):
 
 
 class Post(Document):
-	_id = ObjectIdField(primary_key=True)
+	_id = ObjectIdField(default=ObjectId)
 	author = ReferenceField(User, required=True)
 	title = StringField(max_length=256, required=True)
 	subreddit = ReferenceField(Subreddit, required=True)
 	body = StringField(default=str)
 	posteddate = DateTimeField(default=datetime.utcnow)
 	votecount = IntField(default=lambda: 1)
-	flair = StringField()
+	flair = StringField(default=str)
 
 	meta = {'collection': 'posts'}
 
 	def json(self):
 		return dumps({
-			'author': self.author.username,
+			'id': str(self._id),
+			'author': f'u/{self.author.username}',
 			'title': self.title,
-			'subreddit': self.subreddit.name,
-			'posteddate': self.posteddate.strftime("%d-%m-%Y %H:%M:%S"),
-			'votecount': self.votecount,
+			'description': self.body,
+			'subreddit': f'r/{self.subreddit.name}',
+			'postdate': self.posteddate.strftime("%d-%m-%Y %H:%M:%S"),
+			'votes': self.votecount,
 			'flair': self.flair
 		})
 

@@ -12,9 +12,11 @@ class MainFeed extends Component {
 	// Called immediately after a component is mounted. Setting state here will trigger re-rendering.
 	componentDidMount() {
 		// Fetch user feed
-		axios.get("https://my-json-server.typicode.com/typicode/demo/posts", { crossdomain: true })  //Replace with appropriate API URL
+		axios.get("http://localhost:5000/api/posts", { crossdomain: true })  //Replace with appropriate API URL
 			.then(response => {
 				console.log(response);
+				this.setState({allPosts: response.data});
+
 				// Set this.state.allPosts to the response.
 				// this.state.allPosts = response IN LIST FORMAT like the example of allPosts
 			})
@@ -27,40 +29,23 @@ class MainFeed extends Component {
 		axios.get("http://localhost:5000/api/subreddits", { crossdomain: true })
 			.then(response => {
 				console.log(response);
-				this.state.listOfSubreddits = response.data;
+				this.setState({listOfSubreddits: response.data});
 			}).catch(error => {
 				console.log(error);
 			})
 	}
 
-
 	state = {
 		allPosts: [
-			// allPosts refers to an array which should be the response from the API returning all posts in the format below.
-			// Format - id, title, description, image, votes.
-			// Post 1
 			{
 				id: 1, title: "Space", description: "A galaxy is a gravitationally bound system of stars, stellar remnants, interstellar gas, dust, and dark matter. The word galaxy is derived from the Greek galaxias, literally 'milky', a reference to the Milky Way.",
-				image: "../images/test_image1.jpg", votes: 15, subreddit: "r/space"
+				image: "../images/test_image1.jpg", votes: 15, subreddit: "r/worldnews", author: "u/sarthak7gupta", postdate: "16-04-2020 07:08:09"
 			},
-
-			// Post 2
-			{
-				id: 2, title: "Forest", description: "A forest is a large area dominated by trees. Hundreds of more precise definitions of forest are used throughout the world, incorporating factors such as tree density, tree height, land use, legal standing and ecological function.",
-				image: "../images/test_image2.jpg", votes: 34, subreddit: "r/nature"
-			},
-
-			{
-				id: 3, title: "Mountains", description: "A mountain is a large landform that rises above the surrounding land in a limited area, usually in the form of a peak. A mountain is generally steeper than a hill.",
-				image: "../images/test_image3.jpg", votes: 55, subreddit: "r/nature"
-			}
 		],
 
 		listOfSubreddits: [
 			{ id: 1, name: "hello" },
-			{ id: 2, name: "world" },
-			{ id: 3, name: "reactJS" },
-			{ id: 4, name: "Javascript" },
+			{ id: 2, name: "world" }
 		]
 
 	};
