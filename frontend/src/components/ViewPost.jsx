@@ -45,10 +45,10 @@ class ViewPost extends Component {
                         <div style={this.subreddit_name_style}>
                             {/* Subreddit Name */}
                             <div style={{fontSize:15}} onClick={ () => this.goToSubreddit(this.state.post.subreddit)}>
-                                <p style={{marginTop:"5px"}}> { this.state.post.subreddit } </p>
+                                <p style={{marginTop:"5px"}}> r/{ this.state.post.subreddit } </p>
                             </div>
                             <div style={{fontSize:15}} >
-                                <p style={{marginTop:"5px"}}> { this.state.post.author } </p>
+                                <p style={{marginTop:"5px"}}> u/{ this.state.post.author } </p>
                             </div>
 
                         </div>
@@ -84,7 +84,7 @@ class ViewPost extends Component {
                 </div>
                 <hr></hr>
                 <div style={{ display: "flex", justifyContent: "center" }}>
-                    <h2>Similar Posts</h2>
+                    <h2>Similar Posts You May Like...</h2>
                 </div>
                 <div style={{minheight:"100vh",width:"100%",display:"flex",justifyContent:"center"}}>
                 <Posts
@@ -98,6 +98,14 @@ class ViewPost extends Component {
                 </div>
             </React.Fragment>
         );
+    }
+
+	goToPost = currentPost => {
+		console.log("Going to post", currentPost);
+		const id = currentPost.id;
+		const sub = currentPost.subreddit;
+		const uri = '/r/post/?' + sub + '/' + id;
+		this.props.history.push(uri, currentPost);
     }
 
     handleUpvote = currentPost => {
@@ -134,9 +142,6 @@ class ViewPost extends Component {
         const uri = '/r?'+subreddit;
         this.props.history.push(uri,subreddit);
     }
-
-
-
 
 }
 

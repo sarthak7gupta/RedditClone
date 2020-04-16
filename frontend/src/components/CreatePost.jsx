@@ -5,7 +5,6 @@ import axios from 'axios';
 
 class CreatePost extends Component {
 	state = {
-		username: this.props.username,
 		title: "",
 		body: "",
 		subreddit: "",

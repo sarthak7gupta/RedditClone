@@ -17,7 +17,7 @@ class Post extends Component {
 
     render() {
 
-        const {id,author,title,description,votes,subreddit,flair, postdate} = this.props.post;
+        const {id, author,title,description,votes,subreddit,flair, postdate} = this.props.post;
 
         console.log(id);    //postID
 
@@ -28,10 +28,10 @@ class Post extends Component {
                     <div style={this.subreddit_name_style}>
                         {/* Subreddit Name */}
                         <div style={{fontSize:15}} onClick={ () => this.props.goToSubreddit(subreddit)}>
-                            <p style={{marginTop:"5px"}}> { subreddit } </p>
+                            <p style={{marginTop:"5px"}}> r/{ subreddit } </p>
                         </div>
                         <div style={{fontSize:15}}>
-                            <p style={{marginTop:"5px"}}> { author } </p>
+                            <p style={{marginTop:"5px"}}> u/{ author } </p>
                         </div>
 
                     </div>

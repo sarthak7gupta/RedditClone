@@ -105,6 +105,9 @@ class User_(Resource):
 				'message': 'wrong password'
 			}, 400, cors
 
+		user.karma += 2
+		user.save()
+
 		try:
 			Cookie.objects(username=user).get()
 		except DoesNotExist:
@@ -191,7 +194,7 @@ class SubReddit_(Resource):
 			}, 400, cors
 
 		return {
-			'name': f'r/{sub.name}',
+			'name': sub.name,
 			'profilePic': "temp1.jpg",
 			'title': sub.title,
 			'description': sub.desc,
@@ -246,6 +249,9 @@ class SubReddit_(Resource):
 			rules=(s_rules or ''),
 			topic=(s_topic or '')
 		).save()
+
+		user.karma += 5
+		user.save()
 
 		return {
 			'name': s_name
@@ -339,6 +345,9 @@ class Post_(Resource):
 			flair=(p_flair or ''),
 			body=(p_body or '')
 		).save()
+
+		user.karma += 4
+		user.save()
 
 		return {
 			'_id': str(new_post._id)
@@ -494,11 +503,11 @@ class Similar_(Resource):
 				'message': 'Post doesnt exist'
 			}, 400, cors
 
-		posts = [p for p in Post.objects() if p._id != post._id]
+		posts = Post.objects(_id__ne=post._id)
 
 		post = loads(post.json())
 
-		post_to_text = lambda i: i['title'] + ' ' + i['description'] + ' ' + i['subreddit'][2:] + ' ' + i['author'][2:] + ' ' + i['flair']
+		post_to_text = lambda i: i['title'] + ' ' + i['description'] + ' ' + i['subreddit'] + ' ' + i['author'] + ' ' + i['flair']
 
 		X = post_to_text(post)
 
@@ -529,6 +538,27 @@ class Similar_(Resource):
 		return [loads(p.json()) for p in reccs], 200, cors
 
 
+class Search_(Resource):
+	def get(self):
+		a = request.args
+		q = a.get('q', None)
+
+		if not q:
+			return {
+				'message': 'all fields required'
+			}, 400, cors
+
+		posts = Post.objects(Q(title__icontains=q) | Q(body__icontains=q) | Q(flair__icontains=q))
+		users = User.objects(Q(username__icontains=q) | Q(bio__icontains=q))
+		subs = Subreddit.objects(Q(name__icontains=q) | Q(title__icontains=q) | Q(desc__icontains=q))
+
+		return {
+			'posts': list(map(lambda x: loads(x.json()), posts)),
+			'users': list(map(lambda x: loads(x.json()), users)),
+			'subreddits': list(map(lambda x: loads(x.json()), subs))
+
+		}, 200, cors
+
 # api.add_resource(User1_, '/api/user/<username>')
 api.add_resource(User_, '/api/user')
 api.add_resource(Post1_, '/api/posts')
@@ -536,6 +566,7 @@ api.add_resource(Post_, '/api/post')
 api.add_resource(SubReddit_, '/api/subreddit')
 api.add_resource(SubReddits_, '/api/subreddits')
 api.add_resource(Subscription_, '/api/sub')
+api.add_resource(Search_, '/api/search')
 api.add_resource(Similar_, '/api/similar')
 
 

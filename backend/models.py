@@ -27,7 +27,7 @@ class User(Document):
 			'username': self.username,
 			'email': self.email,
 			'bio': self.bio,
-			'cakeday': self.cakeday,
+			'cakeday': self.cakeday.strftime("%d-%m-%Y"),
 			'karma': self.karma
 		})
 
@@ -62,7 +62,7 @@ class Subreddit(Document):
 			'title': self.title,
 			'createdby': self.createdby.username,
 			'desc': self.desc,
-			'createddate': self.createddate,
+			'createddate': self.createddate.strftime("%d-%m-%Y %H:%M:%S"),
 			'rules': self.rules,
 			'topic': self.topic
 		})
@@ -83,10 +83,10 @@ class Post(Document):
 	def json(self):
 		return dumps({
 			'id': str(self._id),
-			'author': f'u/{self.author.username}',
+			'author': f'{self.author.username}',
 			'title': self.title,
 			'description': self.body,
-			'subreddit': f'r/{self.subreddit.name}',
+			'subreddit': f'{self.subreddit.name}',
 			'postdate': self.posteddate.strftime("%d-%m-%Y %H:%M:%S"),
 			'votes': self.votecount,
 			'flair': self.flair
