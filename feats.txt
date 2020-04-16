@@ -1,0 +1,95 @@
+Home
+	Nav Bar
+		Logo
+		List of Communities
+		Search
+			Subreddits
+			Accounts
+			Posts
+			Comments
+		Create Subreddit
+			Name
+			Topics
+				Primary
+			Description
+		Create Post
+			Choose Subreddit
+			Text/Image/Video/Link
+			Title
+			Body
+		Account
+			Karma
+			Profile
+			Settings
+			Log Out
+	Body
+		Sort By
+			Best
+			Hot
+			Top
+				Now (Hour)
+				Today
+				This Week
+				This Month
+				This Year
+				All Time
+			Rising
+			New
+		Sponsored
+		Posts
+	Sidebar
+		Recommended Subreddits
+		Trending Subreddits
+		Rules/Sitemap/Privacy Policy
+Subreddit
+	Name
+	Posts
+	Title
+	Description
+	Subscribers
+	Created On
+	Rules
+	Sort By
+		Best
+		Hot
+		Top
+			Now (Hour)
+			Today
+			This Week
+			This Month
+			This Year
+			All Time
+		Rising
+		New
+	Filter by flair
+User
+	Name
+	Username
+	DOB
+	email
+	password
+	Cake Day
+	Subreddits
+	Karma
+	Bio
+	Posts
+	Comments
+	Post Upvoted
+	Post Downvoted
+	Saved
+Post
+	Posted By
+	Title
+	Subreddit (Posted to)
+	Time of Posting
+	Points (Upvotes, Downvotes)
+	Type (Text/Image/Video/Link)
+	Body
+	Comments
+	OC/NSFW/Spoiler
+	Save
+	Archived
+Comments
+	Posted by (with flair)
+	Points (Upvotes, Downvotes)
+	Save
