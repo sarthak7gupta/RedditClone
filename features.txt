@@ -1,0 +1,157 @@
+Home
+	Nav Bar
+		Logo
+		List of Communities
+		Search
+			Subreddits
+			Accounts
+			Posts
+			Comments
+			# Replies
+		# ModQ (?)
+			# All/Select Subreddits, Posts/Comments
+				# Reports
+				# Spam
+				# Unmoderated
+					# Approve
+					# Remove
+					# Spam
+					# Lock Comments
+					# Mark OC, NSFW, Spoiler
+					# Add Flair
+				# Approve People
+		# Chat
+			# Rooms
+			# Direct
+		# Messages/Notifications (?)
+			# Username Mentions
+			# Comments/Replies
+			# Mod action on post
+			# Added as moderator
+		Create Subreddit
+			Name
+			Topics
+				Primary
+			Description
+			# Type
+				# Public (Anyone can view, post, and comment to this community)
+				# Restricted (Anyone can view this community, but only approved users can post)
+				# Private (Only approved users can view and submit to this community)
+			# NSFW
+		Create Post
+			Choose Subreddit
+			Text/Image/Video/Link
+			Title
+			Body # (Plain/MD)
+			# OC/Spoiler/NSFW/Flair
+			# Save Draft/Post
+			# Rules in sidebar
+		Account
+			Karma
+			Profile
+			Settings
+			Log Out
+	Body
+		Sort By
+			Best
+			Hot
+			Top
+				Now (Hour)
+				Today
+				This Week
+				This Month
+				This Year
+				All Time
+			Rising
+			New
+		Sponsored
+		Posts
+	Sidebar
+		Recommended Subreddits
+		Trending Subreddits
+		Rules/Sitemap/Privacy Policy
+
+Subreddit
+	Name
+	Posts
+	Title
+	Description
+	Subscribers
+	Created On
+	Rules
+	# Mods
+	Sort By
+		Best
+		Hot
+		Top
+			Now (Hour)
+			Today
+			This Week
+			This Month
+			This Year
+			All Time
+		Rising
+		New
+	Filter by flair
+
+User
+	Name
+	Username
+	# Profile Pic
+	# Cover Pic
+	DOB
+	email
+	password
+	Cake Day
+	# Followers
+	# Following
+	Subreddits
+	Karma
+	Bio
+	# Mod of
+	Posts
+	Comments
+	# Replies
+	# Trophies
+	Post Upvoted
+	Post Downvoted
+	# Awards Given (?)
+	# Awards Received (?)
+	Saved
+
+Post
+	Posted By # (with flair)
+	Title
+	Subreddit (Posted to)
+	Time of Posting
+	Points (Upvotes, Downvotes)
+	Type (Text/Image/Video/Link)
+	Body
+	Comments
+	# Awards
+	# Flairs
+	OC/NSFW/Spoiler
+	# Share
+	Save
+	# Report
+	# Pinned
+	Archived
+
+Comments
+	Posted by (with flair)
+	Points (Upvotes, Downvotes)
+	# Replies
+	# Awards
+	# Share
+	Save
+	# Report
+
+# Replies
+	# OC
+	# Posted by (with flair)
+	# Points (Upvotes, Downvotes)
+	# Replies
+	# Awards
+	# Share
+	# Save
+	# Report
