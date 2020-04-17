@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 // import Posts from './Post';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import UserElement from './UserElement';
 import PostElement from './PostElement';
@@ -111,6 +112,13 @@ class SearchResults extends Component {
 								/>
 							))
 							}
+						</div>
+					</div>
+					<div style={{ margin: "20px", marginTop: "30px" }}>
+						<span><h3>Try the real reddit, maybe?</h3></span>
+						<div style={{ display: "flex", height: "auto", minheight: "200px", flexWrap: "wrap", justifyContent: "left" }}>
+
+							<Link to={`rss?${this.state.query}`}>{this.state.query}</Link>
 						</div>
 					</div>
 

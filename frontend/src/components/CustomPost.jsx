@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { IconButton } from '@material-ui/core'
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import PostDescription from './PostDescription'
+import AddIcon from '@material-ui/icons/Add';
+import CustomPostDescription from './CustomPostDescription'
 import '../styles/post.css'
 // Every post is assembled here. Called using the map function repetedly for every post that is to be displayed.
 class Post extends Component {
@@ -16,7 +17,7 @@ class Post extends Component {
 
     render() {
 
-        const { author,title,description,votes,subreddit,flair, postdate} = this.props.post;
+        const {id, author,title,votes,html,subreddit,flair, postdate} = this.props.post;
 
         return (
                 // Single post container
@@ -47,7 +48,9 @@ class Post extends Component {
 
                     {/* Post Text/Description/Caption */}
                     <div style={{paddingInline: 10}} onClick={ () => this.props.goToPost(this.props.post)}>
-                        <PostDescription desc = {description} />
+                        {
+                            <CustomPostDescription html = {html} />
+                        }
                     </div>
 
                     {/* Post image */}

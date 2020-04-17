@@ -15,16 +15,14 @@ class Post extends Component {
     vote_btn_style = {marginInline:10,marginTop:5,marginBottom:5}
     subreddit_name_style = {paddingInline: 10,display:"flex",flexDirection:"row",justifyContent:"space-between",marginTop:"5px"}
 
-    render() { 
+    render() {
 
         const {id,title,description,image,votes,subreddit} = this.props.post;
 
-        console.log(id);    //postID
-
-        return (  
+        return (
                 // Single post container
                 <div style={this.container_style}>
-                    
+
                     <div style={this.subreddit_name_style}>
                         {/* Subreddit Name */}
                         <div style={{fontSize:15}} onClick={ () => this.props.goToSubreddit(subreddit)}>
@@ -52,10 +50,10 @@ class Post extends Component {
                     </div>
 
                     {/* Post Text/Description/Caption */}
-                    <div style={{paddingInline: 10}} onClick={ () => this.props.goToPost(this.props.post)}>                    
+                    <div style={{paddingInline: 10}} onClick={ () => this.props.goToPost(this.props.post)}>
                         <PostDescription desc = {description} />
                     </div>
-                    
+
                     {/* Post image */}
                     <div style={{display:"flex",justifyContent:"center"}} onClick={ () => this.props.goToPost(this.props.post)}>
                         <img src = {image} alt="space" style={{width:"80%",height:"80%"}}/>
@@ -74,5 +72,5 @@ class Post extends Component {
         );
     }
 }
- 
+
 export default Post;

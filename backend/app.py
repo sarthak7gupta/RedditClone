@@ -250,8 +250,8 @@ class SubReddit_(Resource):
 			topic=(s_topic or '')
 		).save()
 
-		user.karma += 5
-		user.save()
+		s_user.karma += 5
+		s_user.save()
 
 		return {
 			'name': s_name
@@ -297,6 +297,9 @@ class Post1_(Resource):
 				posts = Post.objects(author=p_user)
 			else:
 				posts = Post.objects()
+
+		posts = posts.order_by('-posteddate')
+
 
 		return [loads(i.json()) for i in posts], 200, cors
 
@@ -346,8 +349,8 @@ class Post_(Resource):
 			body=(p_body or '')
 		).save()
 
-		user.karma += 4
-		user.save()
+		p_user.karma += 4
+		p_user.save()
 
 		return {
 			'_id': str(new_post._id)

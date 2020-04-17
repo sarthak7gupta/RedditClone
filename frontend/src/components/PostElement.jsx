@@ -13,7 +13,7 @@ class PostElement extends Component {
 
 	render() {
 
-		const { id, author, title, description, subreddit, postdate, votes, flair } = this.props.post;
+		const { author, title, description, subreddit, postdate, flair } = this.props.post;
 
 		return (
 			// <div style={this.container_style} onClick={() => this.props.goToPost(this.props.post)}>
@@ -45,8 +45,13 @@ class PostElement extends Component {
 					<PostDescription desc={description} />
 				</div>
 
-				<div style={{ padding: '10px' }}>
-					{postdate}
+				<div style={{display:'flex', justifyContent:'space-between'}}>
+					<div style={{ padding: '10px' }}>
+						{postdate}
+					</div>
+					<div style={{ padding: '10px' }}>
+						{flair}
+					</div>
 				</div>
 			</div>
         );

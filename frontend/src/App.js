@@ -13,6 +13,7 @@ import CreateSubreddit from './components/CreateSubreddit';
 import SearchResults from './components/SearchResults';
 import Subreddit from './components/Subreddit';
 import ViewPost from './components/ViewPost';
+import SubredditRSS from './components/SubredditRSS'
 // import Explore from './components/Explore';
 
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
@@ -67,6 +68,8 @@ class App extends Component {
 						isLoggedIn={this.state.isLoggedIn} /> } />
 
 						<Route path='/SearchResults' exact component={SearchResults}/>
+
+						<Route path='/rss/' exact component={SubredditRSS}/>
 
 						<Route path='/r/' exact component={Subreddit}/>
 

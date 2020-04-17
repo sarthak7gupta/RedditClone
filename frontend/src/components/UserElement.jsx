@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import userDP from '../images/profilePic.jpg'
 
 class UserElement extends Component {
     state = {  }

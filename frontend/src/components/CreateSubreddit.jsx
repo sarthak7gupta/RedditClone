@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
-import { Form } from 'react-bootstrap';
 import axios from 'axios';
 
 class CreateSubreddit extends Component {

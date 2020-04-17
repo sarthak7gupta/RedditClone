@@ -12,6 +12,20 @@ class MainFeed extends Component {
 	// Called immediately after a component is mounted. Setting state here will trigger re-rendering.
 	componentDidMount() {
 		// Fetch user feed
+		this.fetchFeed();
+		setInterval(this.fetchFeed, 10000); // AJAX Periodic Refresh
+
+		// Fetch list of subreddits
+		axios.get("http://localhost:5000/api/subreddits", { crossdomain: true })
+			.then(response => {
+				console.log(response);
+				this.setState({listOfSubreddits: response.data});
+			}).catch(error => {
+				console.log(error);
+			})
+	}
+
+	fetchFeed = () => {
 		axios.get("http://localhost:5000/api/posts", { crossdomain: true })  //Replace with appropriate API URL
 			.then(response => {
 				console.log(response);
@@ -24,17 +38,7 @@ class MainFeed extends Component {
 				// Error recovery logic
 				console.log(error);
 			})
-
-		// Fetch list of subreddits
-		axios.get("http://localhost:5000/api/subreddits", { crossdomain: true })
-			.then(response => {
-				console.log(response);
-				this.setState({listOfSubreddits: response.data});
-			}).catch(error => {
-				console.log(error);
-			})
 	}
-
 	state = {
 		allPosts: [
 			{

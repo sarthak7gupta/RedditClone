@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { IconButton } from '@material-ui/core'
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import AddIcon from '@material-ui/icons/Add';
 import PostDescription from './PostDescription'
 import axios from 'axios';
 import Posts from './Posts'
@@ -31,7 +30,7 @@ class ViewPost extends Component {
         allPosts: []
     }
 
-    container_style = {border: "1px solid black",width:600,height:"auto",margin:5,minHeight:100};
+    container_style = {border: "1px solid black",width:600,height:"auto",margin:5,minHeight:100, padding: 10, borderRadius: 5};
     title_votes_style = {paddingInline: 10,display:"flex",flexDirection:"row",justifyContent:"space-between"}
     vote_btn_style = {marginInline:10,marginTop:5,marginBottom:5}
     subreddit_name_style = {paddingInline: 10,display:"flex",flexDirection:"row",justifyContent:"space-between",marginTop:"5px"}
@@ -69,15 +68,19 @@ class ViewPost extends Component {
                         <div style={{paddingInline: 10}}>
                             <PostDescription desc = {this.state.post.description} />
                         </div>
-
-                        {/* Post upvote and downvote button */}
-                        <div style={this.vote_btn_style}>
-                            <IconButton size = "small" color="secondary" onClick={ () => this.handleUpvote(this.state.post)} >
-                                <ArrowUpwardIcon/>
-                            </IconButton>
-                            <IconButton size = "small" color="primary" onClick={ () => this.handleDownvote(this.state.post)}>
-                                <ArrowDownwardIcon/>
-                            </IconButton>
+                        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                            {/* Post upvote and downvote button */}
+                            <div style={this.vote_btn_style}>
+                                <IconButton size = "small" color="secondary" onClick={ () => this.handleUpvote(this.state.post)} >
+                                    <ArrowUpwardIcon/>
+                                </IconButton>
+                                <IconButton size = "small" color="primary" onClick={ () => this.handleDownvote(this.state.post)}>
+                                    <ArrowDownwardIcon/>
+                                </IconButton>
+                            </div>
+                            <div>
+                                {this.state.post.flair}
+                            </div>
                         </div>
                     </div>
 

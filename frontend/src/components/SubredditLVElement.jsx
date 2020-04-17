@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class SubredditLVElement extends Component {
     state = {  }
 
-    container_style = {display:"flex",flexDirection:"column",border: "1px solid black",width:200,height:"auto",margin:5};
+    container_style = {borderRadius:5, display:"flex",flexDirection:"column",border: "1px solid black",width:200,height:"auto",margin:5};
 
     render() {
 

@@ -8,12 +8,10 @@ class PostDescription extends Component {
 
     render() {
 
-        const desc = this.props.desc;
+        const html = this.props.html;
         // Modify desc if desc more than 100 chars(?) along with a read more button. Else dont modify desc.
         return (
-                <p>
-                    {desc}
-                </p>
+                <p dangerouslySetInnerHTML={{__html: html}} />
         );
 
     }
