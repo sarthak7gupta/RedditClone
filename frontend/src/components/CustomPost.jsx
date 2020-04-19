@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { IconButton } from '@material-ui/core'
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import AddIcon from '@material-ui/icons/Add';
 import CustomPostDescription from './CustomPostDescription'
 import '../styles/post.css'
 // Every post is assembled here. Called using the map function repetedly for every post that is to be displayed.
@@ -10,14 +9,14 @@ class Post extends Component {
     state = {  }
 
     // Styling elements
-    container_style = {border: "1px solid black",width:500,height:"auto",margin:15, padding:10,borderRadius:5,minHeight:200};
+    container_style = {border: "1px solid black",width:500,height:"auto",margin:15, padding:35,borderRadius:5,minHeight:200};
     title_votes_style = {paddingInline: 10,display:"flex",flexDirection:"row",justifyContent:"space-between"}
     vote_btn_style = {marginInline:10,marginTop:5,marginBottom:5}
     subreddit_name_style = {paddingInline: 10,display:"flex",flexDirection:"row",justifyContent:"space-between",marginTop:"5px"}
 
     render() {
 
-        const {id, author,title,votes,html,subreddit,flair, postdate} = this.props.post;
+        const {author,title,votes,html,subreddit,flair, postdate} = this.props.post;
 
         return (
                 // Single post container
@@ -26,7 +25,7 @@ class Post extends Component {
                     <div style={this.subreddit_name_style}>
                         {/* Subreddit Name */}
                         <div style={{fontSize:15}} onClick={ () => this.props.goToSubreddit(subreddit)}>
-                            <p style={{marginTop:"5px"}}> r/{ subreddit } </p>
+                            <p style={{marginTop:"5px"}}> { subreddit } </p>
                         </div>
                         <div style={{fontSize:15}}>
                             <p style={{marginTop:"5px"}}> u/{ author } </p>

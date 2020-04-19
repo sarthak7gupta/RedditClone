@@ -4,7 +4,7 @@ import PostDescription from './PostDescription'
 class PostElement extends Component {
 	state = {}
 
-	container_style = { display: "flex", flexDirection: "column", border: "1px solid black", width: 350, height: "auto", padding: 5, margin: 5, Height: 200, alignItems: "center" };
+	container_style = { display: "flex", flexDirection: "column", border: "1px solid black", width: 350, height: "auto", padding: 10, margin: 5, Height: 200, alignItems: "center", borderRadius:5 };
 
 	// container_style = {border: "1px solid black",width:600,height:"auto",margin:5,minHeight:100};
 	title_votes_style = {paddingInline: 10,display:"flex",flexDirection:"row",justifyContent:"space-between"}
@@ -42,7 +42,7 @@ class PostElement extends Component {
 
 				{/* Post Text/Description/Caption */}
 				<div style={{ paddingInline: 10 }} onClick={() => this.props.goToPost(this.props.post)}>
-					<PostDescription desc={description} />
+					<PostDescription desc={description.slice(0, 256) + '...'} />
 				</div>
 
 				<div style={{display:'flex', justifyContent:'space-between'}}>

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class UserElement extends Component {
     state = {  }
 
-    container_style = {display:"flex",flexDirection:"column",border: "1px solid black",width:350,height:"auto",margin:5,Height:200,alignItems:"center"};
+    container_style = {display:"flex",flexDirection:"column",border: "1px solid black",width:350,height:"auto",margin:5,Height:200,alignItems:"center",padding:10,borderRadius:5};
 
     render() {
 

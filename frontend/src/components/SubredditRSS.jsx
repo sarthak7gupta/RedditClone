@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import profilePic from '../images/subredditPic.jpg'
-import Posts from './Posts'
+import CustomPosts from './CustomPosts'
 import Parser from 'rss-parser';
 
 class SubredditRSS extends Component {
@@ -13,7 +13,7 @@ class SubredditRSS extends Component {
     }
 
     state = {
-        sub: this.props.location.search.slice(1) || 'all',
+        sub: this.props.location.search ? this.props.location.search.slice(1) : 'all',
         // Fetch all posts required by user
         allPosts: [
             { id: 1, title: "Space", description: "A galaxy is a gravitationally bound system of stars, stellar remnants, interstellar gas, dust, and dark matter. The word galaxy is derived from the Greek galaxias, literally 'milky', a reference to the Milky Way.", image: "../images/test_image1.jpg", votes: 15, subreddit: "r/space" },
@@ -33,7 +33,7 @@ class SubredditRSS extends Component {
                 <div style={{ minheight: "100vh", width: "100%", display: "flex", justifyContent: "space-between" }}>
 
                     {/* Left */}
-                    <div style={{ flexGrow: "1", display: "flex", flexDirection: "column", alignItems: "center", marginTop: "20px" }}  onClick={() => this.goToSubreddit(this.state.sub)}>
+                    <div style={{ flexGrow: "1", display: "flex", flexDirection: "column", alignItems: "center", marginTop: "20px" }} onClick={() => this.goToSubreddit(this.state.sub)}>
                         {/* Image */}
                         <div style={{ border: "1px solid black", width: "210px", height: "210px", margin: "10px" }}>
                             <img src={profilePic} style={{ width: "210px", height: "210px" }} alt="profile_pic" />
@@ -72,7 +72,7 @@ class SubredditRSS extends Component {
                         <div>
                             <h2 style={{ marginTop: "10px" }}>All posts on {this.state.subRedditProfile.name}</h2>
                         </div>
-                        <Posts
+                        <CustomPosts
                             allPosts={this.state.allPosts}
                             onUpvote={this.handleUpvote}
                             onDownvote={this.handleDownvote}
@@ -111,10 +111,10 @@ class SubredditRSS extends Component {
 
         let parser = new Parser({
             customFields: {
-              feed: ['subtitle'],
-              entry: ['category'],
+                feed: ['subtitle', 'category'],
+                item: ['category'],
             }
-          });
+        });
 
         parser.parseURL(`https://reddit.com/r/${this.state.sub}.rss`).then(response => {
 
@@ -133,12 +133,12 @@ class SubredditRSS extends Component {
                     id: item.id,
                     title: item.title,
                     html: item.content,
-                    author: item.author.slice(3),
+                    author: item.author ? item.author.slice(3) : '',
                     link: item.link,
                     postdate: this.parseUTC(item.pubDate),
-                    subreddit: this.state.sub,
+                    subreddit: item.category.$.label,
                     votes: 1,
-                    flair: ""
+                    flair: item.category.$.term
                 }
             });
 
@@ -147,7 +147,6 @@ class SubredditRSS extends Component {
         })
             .catch(error => {
                 console.log(error);
-
             });
     }
 
