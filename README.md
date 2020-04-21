@@ -34,3 +34,13 @@
 - AJAX Pattern Implemented- *Periodic Refresh*
 - Additional Functionality- *RSS*
 - Intelligent Functionality- *Similar Post Recommendation* using content based filtering of posts
+
+---
+
+To run,
+- Clone the repo
+- Open 2 terminals, one each in the backend and frontend folder
+- Run `yarn start` in the frontend terminal
+- Run `python app.py` in the backend terminal
+- Disable CORS in your browser (`google-chrome --disable-web-security --user-data-dir="/tmp/chromeCORS"`)
+- Open `localhost:3000` in the browser
