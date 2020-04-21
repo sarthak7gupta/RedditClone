@@ -18,7 +18,7 @@ class User(Document):
 	email = EmailField(unique=True, required=True)
 	bio = StringField(max_length=512, default=str)
 	cakeday = DateField(default=datetime.utcnow)
-	karma = IntField(default=lambda: 0)
+	karma = IntField(default=int)
 
 	meta = {'collection': 'users'}
 
@@ -39,10 +39,9 @@ class Cookie(Document):
 		'indexes': [{
 			'fields': ['username'],
 			'expireAfterSeconds': 6 * 60 * 60
-		}]
+		}],
+		'collection': 'cookies'
 	}
-
-	meta = {'collection': 'cookies'}
 
 
 class Subreddit(Document):

@@ -150,7 +150,6 @@ class SubredditRSS extends Component {
             });
     }
 
-
 }
 
 export default SubredditRSS;

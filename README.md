@@ -1,44 +1,36 @@
-Create a project using command:
+# Reddit Clone
 
-    - npx create-react-app <app name>
-
-Cd into the project directory
-
-Install the following dependencies using "npm install ":
-
-    npm install @material-ui/core
-
-    npm install react-router
-
-    npm install axios
-
-    npm install mdbreact
-
-    npm install react-md
-
-
-Copy paste the src and public folders of this repo in the react project directory
-
-npm-start to deploy
-
-localhost:3000 for mainfeed
-
-localhost:3000/CreatePost for creating a post
-
-localhost:3000/Trending for trending
-
-localhost:3000/Profile for profile
-
+- **Sarthak Gupta** (PES1201700077)
+- **Ruben John Mampilli** (PES1201700105)
+- **Dhruv Vohra** (PES1201700281)
 
 ---
 
+### This project is an online platform for users to see, publish and review posts on various forums published by other users. Forums/**Subreddits** can be created about different subjects and **Posts** can be created on these forums by various users
 
-Tasks pending in front end:
+---
 
-* ajax techniques (any 2)
+## Features:
+* Posts can be **upvoted/downvoted** by other users, these votes represent how good or bad the post is to the followers of that content
+* Users are awarded **Karma points** based on the activity of the user on the website to promote healthy activity
+* Posts are **recommended** to users based on similar posts and similar forums that are likely to be of similar interest to them
+* The Project uses the **RESTful API** for efficient performance and decreased errors along with modularized code (backend as well as frontend)
+* Live feed from Reddit using **RSS**
 
-* Post comments (not done)
+---
 
-* Image sent as prop from mainfeed.jsx does not load in post.jsx (Possible solution is webpack?)
+## Stack:
+- Frontend- *JavaScript (React.js)*
+- REST Backend- *Python (Flask RESTful)*
+- Database- *NoSQL (MongoDB)*
 
-* The intelligent feature of the project (Suggesting similar posts what a user would like)
+---
+
+## Techniques:
+- UI/UX- *React JS* with material-ui & react-bootstrap
+- Backend- *RESTful APIs* using Flask
+- Frontend-to-Backend Communication- *Axios*
+- Database Interface- *mongoengine*
+- AJAX Pattern Implemented- *Periodic Refresh*
+- Additional Functionality- *RSS*
+- Intelligent Functionality- *Similar Post Recommendation* using content based filtering of posts
